@@ -41,21 +41,8 @@ KbdTray::KbdTray(QWidget* parent) : KSystemTrayIcon(parent)
     QAction *titleAction = contextMenuTitle();
     titleAction->setText("Kvkbd");
 
-
-    
-
-    
-    
-    
-    
-    
-
-    
     connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(activationHandler(QSystemTrayIcon::ActivationReason)));
 
-    
-    
-    setVisible(true);
 }
 
 KbdTray::~KbdTray()

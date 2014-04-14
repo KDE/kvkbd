@@ -28,8 +28,46 @@
 static const char description[] =
     I18N_NOOP("A virtual keyboard for KDE");
 
-static const char version[] = "0.7.0";
+static const char version[] = "0.7.1";
 
+#include <X11/Xlib.h>
+
+void findLoginWindow()
+{
+	unsigned int numkids, i,mapped,scrn;
+	Window r, p;
+	Window *kids=0;
+	//XWindowAttributes attr;
+	Window root;
+	Display *dipsy=0;
+	char *win_name=0;
+
+	dipsy = XOpenDisplay(0);
+	if (!dipsy)return;
+
+	scrn = DefaultScreen(dipsy);
+	root = RootWindow(dipsy, scrn);
+	
+	mapped = 0;
+	XQueryTree(dipsy, root, &r, &p, &kids, &numkids);
+		
+
+	for (i = 0; i < numkids;  ++i)
+	{
+			XFetchName(dipsy, kids[i], &win_name);
+			QString c(win_name);
+			
+			if (c=="kvkbd.login")
+ 			{
+ 				long wid = kids[i];
+				XDestroyWindow(dipsy,wid);
+				XFlush(dipsy);
+				i=numkids;
+ 			}
+			XFree(win_name);
+	} 
+	XCloseDisplay(dipsy);
+}
 
 int main(int argc, char **argv)
 {
@@ -47,7 +85,12 @@ int main(int argc, char **argv)
                                      "See Kvkbd Handbook for information on how to use this option."));
     KCmdLineArgs::addCmdLineOptions(options);
 
-    KvkbdApp app(argc, argv);
+    bool is_login = KCmdLineArgs::parsedArgs()->isSet("loginhelper");
+    if (!is_login) {
+      findLoginWindow();
+    }
+	
+    KvkbdApp app(is_login);
 
     return app.exec();
     

@@ -40,7 +40,7 @@ class KvkbdApp : public KUniqueApplication
     Q_OBJECT
 
 public:
-    KvkbdApp(int argc, char **argv);
+    KvkbdApp(bool loginhelper=false);
     ~KvkbdApp();
 
     
@@ -84,6 +84,8 @@ protected:
     KbdDock *dock;
     
     VKeyboard *xkbd;
+    
+    bool is_login;
     
 signals:
     void textSwitch(bool);

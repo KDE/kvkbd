@@ -201,10 +201,14 @@ void X11Keyboard::layoutChanged()
         QString current_layout = reply.value();
 
         layout_index = layouts.indexOf(current_layout);
-
+	
+	emit layoutUpdated(layout_index, layouts.at(layout_index));
     }
-
-    emit layoutUpdated(layout_index, layouts.at(layout_index));
+    else {
+	layout_index = 0;
+	
+	emit layoutUpdated(0, "us");
+    }
 
 }
 void X11Keyboard::textForKeyCode(unsigned int keyCode,  ButtonText& text)

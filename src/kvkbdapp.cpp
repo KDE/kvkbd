@@ -59,7 +59,7 @@ using namespace std;
 #include "x11keyboard.h"
 
 
-KvkbdApp::KvkbdApp(int argc, char **argv) : KUniqueApplication(argc, argv)
+KvkbdApp::KvkbdApp(bool loginhelper) : KUniqueApplication(), is_login(loginhelper)
 // : KApplication()
 {
 
@@ -72,21 +72,22 @@ KvkbdApp::KvkbdApp(int argc, char **argv) : KUniqueApplication(argc, argv)
 
     KConfigGroup cfg = KGlobal::config()->group("");
 
-    widget->setAttribute(Qt::WA_ShowWithoutActivating);
-    widget->setAttribute(Qt::WA_DeleteOnClose, false);
-
+    
+    
+    if (!is_login) {
+      widget->setAttribute(Qt::WA_ShowWithoutActivating);
+      widget->setAttribute(Qt::WA_DeleteOnClose, false);
+    }
 
     widget->setWindowFlags( Qt::ToolTip | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint );
 
-
-
     dock = new KbdDock(widget->winId());
     connect(dock, SIGNAL(requestVisibility()), widget, SLOT(toggleVisibility()));
-    
 
     tray = new KbdTray(widget);
     connect(tray, SIGNAL(requestVisibility()), widget, SLOT(toggleVisibility()));
-
+   
+    
     layout = new QGridLayout(widget);
     layout->setContentsMargins(0,0,0,0);
     widget->setLayout(layout);
@@ -103,7 +104,7 @@ KvkbdApp::KvkbdApp(int argc, char **argv) : KUniqueApplication(argc, argv)
 
 
 
-
+    
     QMenu *cmenu = tray->contextMenu();
 
     KAction *chooseFontAction = new KAction(KIcon("preferences-desktop-font"), i18nc("@action:inmenu", "Choose Font..."), this);
@@ -197,22 +198,45 @@ KvkbdApp::KvkbdApp(int argc, char **argv) : KUniqueApplication(argc, argv)
     }
 
     
-
-    setQuitOnLastWindowClosed (false);
+    
+    setQuitOnLastWindowClosed (is_login);
+    
     connect(this, SIGNAL(aboutToQuit()), this, SLOT(storeConfig()));
     emit fontUpdated(widget->font());
 
-    if (dockVisible) {
-        dock->show();
+    if (dockVisible && !is_login) {
+      dock->show();
     }
     
     xkbd->start();
 
-    bool vis = cfg.readEntry("visible", QVariant(true)).toBool();
-    if (!vis) {
-      widget->showMinimized();
-      
+    if (!is_login) {
+      bool vis = cfg.readEntry("visible", QVariant(true)).toBool();
+      if (!vis ) {
+	
+	widget->showMinimized();
+	
+      }
     }
+    
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(1000);
+    connect(timer, SIGNAL(timeout()), widget, SLOT(raise()));
+//     connect(timer, SIGNAL(timeout()), widget, SLOT(showNormal()));
+    timer->start();
+    
+    
+    
+    
+    if (is_login) {
+	widget->setWindowTitle("kvkbd.login");
+    }
+    else {
+	widget->setWindowTitle("kvkbd");
+	tray->show();
+    }
+    
+    
 }
 
 KvkbdApp::~KvkbdApp()
@@ -340,7 +364,9 @@ void KvkbdApp::buttonAction(const QString &action)
 {
 
     if (QString::compare(action , "toggleVisibility")==0) {
-        widget->toggleVisibility();
+        if (!is_login) {
+	  widget->toggleVisibility();
+	}
     }
     else if (QString::compare(action , "toggleExtension")==0) {
 
