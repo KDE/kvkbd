@@ -1,0 +1,5 @@
+- Use layouts instead of manually setting each button position?
+- Make the colorscheme configurable?
+- Write user and dev doc, comment code
+- Use system-wide config file for loginhelper mode?
+- various FIXMEs and TODOs in the code

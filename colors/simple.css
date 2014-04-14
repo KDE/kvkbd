@@ -1,0 +1,46 @@
+QWidget[name="main"] {
+    background-color:rgba(255,255,255,12%);
+    
+}
+
+VButton {
+
+    margin:2px;
+    padding:0px;
+    border-style: outset;
+    
+    border-width: 1px;
+    
+    font-size:13px;
+    font-weight:bold;
+    background-color:rgba(172,172,172,70%);
+    border-color: #000000;
+/*     background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #FFFFFF, stop: 1 #999999 ); */
+
+    color:black;
+}
+
+VButton:pressed {
+    
+    border-style: inset;
+  border-color: #333333;
+}
+VButton:checked {
+    
+/*     border-style: inset; */
+    border-width:2px;
+    border-color: #333333;
+}
+VButton:hover {
+    border-width:2px;
+    border-color: #333333;
+  
+}
+VButton[action="toggleExtension"] {
+  background-color:gray;
+  border-color: gray;
+}
+VButton[action="toggleVisibility"] {
+  background-color:red;
+  border-color:red;
+}

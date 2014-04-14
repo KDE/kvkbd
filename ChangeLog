@@ -1,0 +1,71 @@
+0.7 
+  * Polish KDE4 porting
+  * Implement themese
+  * Code cleanups
+  
+0.6
+  * Fix behaviour of the caps lock, num lock, alt gr and shift keys(thanks to Scott for his Caps Lock patch!)
+  * Repeating keys by pressing a button for a long amount of time now works correctly
+  * Correctly save the configuration options
+  * Remember if the extent was visible when closing and display it at the next start if it's the case
+  * Added semantic markup to the i18n() calls
+  * Added a hack so that keys "^" and "¨" are displayed correcly, at least on azerty keyboards
+  * Correctly displays the "&" key(previously it only worked if it was accessible using the Shift key)
+  * The numpad doesn't go beyond the screen edge when enabled near the right of the screen
+  * Added a DBUS Interface
+  * Use kdelibs coding style
+  * Bug fixes and code cleanup
+  * 0.5.99 regressions fixed:
+    - The dock now show/hide the widget only when it is clicked, not dragged
+    - Memleaks fixes (thanks to Laurent Montel!)
+    - Update the keyboard mapping if xmodmap/setxkbmap changes it
+
+0.5.99(only released for Kubuntu Intrepid Alpha)
+  * KDE4 port
+  * Use a double arrow icon instead of ">>" for the button to show/hide the numpad
+  * Display a 4 arrows cursor when dragging the keyboard
+  * Various bug fixes and code cleanup
+  * User manual for Kvkbd
+
+0.5
+  * added lock function in settings menu to make app window stay locked on the screen. 
+  * right button clicking behave as if shift is clicked.
+ 
+0.4.9
+  * new dcop commands docw_show, docw_hide, docw_state query and toggle the dockwidget state
+ 
+0.4.8 
+  * dcop scripting fixes, now implements show, hide and state functions. Usage 'dcop kvkbd kvkbd' to see all functions. 'dcop kvkbd kvkbd "show()"' to show the widget explicitly.
+  * Fix to correctly save and restore the visibility state of the keyboard widget.
+ 
+0.4.7
+  * new button to popup the dockmenu, helping users without right click.
+  * Store/Restore position of the keyboard on screen.
+ 
+0.4.6
+  * bugfix when started without x running. Confirm working with KDM and --loginhelper option passed (tested in kubuntu)
+ 
+0.4.5
+  * Auto font size implemented
+  * Button repeating function.
+ 
+0.4
+  * Resizable/Moveable main window. Numeric/Cursor pad layer. Additional dcop command - toggle
+ 
+0.3.1 
+  * dcop commands added:
+    - use dcop kvkbd kvkbd show and dcop kvkbd kvkbd hide to toggle visibilty
+ 
+0.3
+  * First run syncing with current choosen keyboard layout
+  * Font configuration implemented
+  * "-loginhelper" option to be used on KDM/XDM screen (an entry should be added in Xsetup if you want kvkbd on the login screen - kvkbd -loginhelper -display :0)
+  * Caps/Shift mode updates for non latin keyboards.
+  * Systray left mouse button update as requested 
+ 
+0.2
+  * characters on the virtual keyboard are now changed to the right characters when the localization of the keyboard (e.g. US->CZ) is changed.
+  * Dock widget tolerant to pen press
+ 
+0.1
+  * Initial version

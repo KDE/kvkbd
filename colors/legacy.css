@@ -1,0 +1,13 @@
+QWidget[name="main"] {
+    background-color:black;
+    border-radius: 5px 5px 5px 5px;
+}
+
+VButton[action="toggleExtension"] {
+  background-color:gray;
+  border-color: gray;
+}
+VButton[action="toggleVisibility"] {
+  background-color:red;
+  border-color:red;
+}

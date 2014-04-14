@@ -1,0 +1,197 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+  <!ENTITY kvkbd "<application>Kvkbd</application>">
+  <!ENTITY kappname "&kvkbd;">
+  <!ENTITY package "kde-module">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE">
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title>The &kvkbd; Handbook</title>
+
+<authorgroup>
+<author>
+<personname><firstname>Todor</firstname><surname>Gyumyushev</surname></personname><email>yodor1@gmail.com</email>
+</author>
+<author>
+<personname><firstname>Guillaume</firstname><surname>Martres</surname></personname><email>smarter@ubuntu.com</email>
+</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+
+<copyright>
+<year>2007-2014</year>
+<holder>Todor Gyumyushev</holder>
+</copyright>
+<copyright>
+<year>2008</year>
+<holder>Guillaume Martres</holder>
+</copyright>
+
+<legalnotice>&FDLNotice;</legalnotice>
+
+<date>2014-04-10</date>
+<releaseinfo>0.7.1</releaseinfo>
+
+<abstract>
+<para>
+&kvkbd; is a virtual keyboard for &kde;
+</para>
+</abstract>
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>Kvkbd</keyword>
+<keyword>keyboard</keyword>
+<keyword>virtual</keyword>
+<keyword>accessibility</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>
+&kvkbd; is a simple virtual keyboard for &kde;. It can be used by disabled people who have trouble using a keyboard or for devices with a touch screen but no keyboard.
+It is also useful to quickly test a keyboard mapping to locate some keys.
+</para>
+</chapter>
+
+<chapter id="using-kvkbd">
+<title>Using &kvkbd;</title>
+<sect1 id="kvkbd-interface">
+<title>&kvkbd; interface</title>
+<para>
+When first launched, &kvkbd; will appears in the bottom-right corner. You can move it by clicking on empty area and drag it anywhere on the screen.
+You can resize it by clicking on the stripes at the bottom-right. The button on the top right is used to hide the keyboard, if you want to show it again, just click on the tray icon.
+If you want to use the numeric keypad, press the green arrow on the right.
+<screenshot><mediaobject><imageobject>
+    <imagedata fileref="kvkbd.png" format="PNG"/>
+</imageobject></mediaobject></screenshot>
+</para>
+</sect1>
+
+<sect1 id="config-menu">
+<title>The configuration menu</title>
+
+<para>
+&kvkbd; configuration menu is accessible ever by clicking on the configuration button or by right-clicking on the tray icon.
+You can change the font used to display the keys by clicking on "Choose Font...". If you check "Auto Resize Font", the font will grow or shrink when &kvkbd; is resized.
+If you click on "Dock Keyboard", a small dock will appears. You can click on it to hide or show the virtual keyboard, you can also drag it anywhere on your screen.
+Finally, the "Lock on Screen" option will prevent the virtual keyboard from being dragged or resized.
+<screenshot><mediaobject><imageobject>
+    <imagedata fileref="config-menu.png" format="PNG" />
+</imageobject></mediaobject></screenshot>
+</para>
+
+</sect1>
+
+<sect1 id="loginhelper-mode">
+<title>Using &kvkbd; with a display manager</title>
+
+<para>
+&kvkbd; can be used on a display manager, like KDM or XDM, to do this edit one of the following file:
+<itemizedlist>
+        <listitem>
+        <para>/etc/kde4/kdm/Xsetup for KDM/KDE4</para>
+        </listitem>
+        <listitem>
+        <para>/etc/kde3/kdm/Xsetup for KDM/KDE3</para>
+        </listitem>
+        <listitem>
+        <para>/etc/X11/xdm/Xsetup for XDM</para>
+        </listitem>
+</itemizedlist>
+And add this at the end:
+<programlisting>
+HOME=/root kvkbd --loginhelper
+</programlisting>
+If you want to quit &kvkbd; once the session is started(useful to let the user launch his own instance of &kvkbd; with his own settings) edit:
+<itemizedlist>
+        <listitem>
+        <para>/etc/kde4/kdm/Xstartup for KDM/KDE4</para>
+        </listitem>
+        <listitem>
+        <para>/etc/kde3/kdm/Xstartup for KDM/KDE3</para>
+        </listitem>
+        <listitem>
+        <para>/etc/X11/xdm/Xstartup for XDM</para>
+        </listitem>
+</itemizedlist>
+make a new line after the first line and add this to it:
+<programlisting>
+qdbus org.kde.kvkbd /MainApplication quit
+</programlisting>
+There is no configuration button in the loginhelper mode. If you want to change the default config, you can launch &kvkbd; as root using:
+<programlisting>
+$(kde4-config --path libexec)/kdesu kvkbd
+</programlisting>
+and make the changes here.
+You can also launches Kvkbd without the --loginhelper option, this is useful if you want to let the users of the system change the options of &kvkbd;
+and be able to minimize it in the systray without launching their own instance of it.
+</para>
+</sect1>
+</chapter>
+
+<chapter id="credits">
+
+<title>Credits and License</title>
+
+<para>
+&kvkbd;
+</para>
+<para>
+Program Copyright &copy; 2007-2014 Todor Gyumyushev <email>yodor1@gmail.com</email>
+</para>
+<para>
+Program and Documentation Copyright &copy; 2008 Guillaume Martres <email>smarter@ubuntu.com</email>
+</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove -->
+
+<!-- Determine which license your application is licensed under,
+     and delete all the remaining licenses below:
+
+     (NOTE:  All documentation are licensed under the FDL,
+     regardless of what license the application uses) -->
+
+&underGPL;
+
+</chapter>
+
+<appendix id="installation">
+<title>Installation</title>
+
+<sect1 id="compilation">
+<title>Compilation and Installation</title>
+
+<!-- This entity contains the boilerplate text for standard -->
+<!-- compilation instructions.  If your application requires any -->
+<!-- special handling, remove it, and replace with your own text. -->
+
+&install.compile.documentation;
+
+</sect1>
+</appendix>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+kate: space-indent on; indent-width 2; tab-width 2; indent-mode none;
+-->

@@ -1,0 +1,11 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kvkbd.Kvkbd">
+    <property name="alone" type="b" access="read"/>
+    <property name="visible" type="b" access="readwrite"/>
+    <property name="locked" type="b" access="readwrite"/>
+<!--    <property name="autoResize" type="b" access="readwrite"/>
+    <method name="chooseFont">
+    </method>-->
+  </interface>
+</node>
