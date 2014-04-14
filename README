@@ -1,0 +1,13 @@
+Kvkbd - A virtual keyboard for KDE4
+===============================================================================
+Installations instructions:
+See INSTALL
+
+Known issues:
+- The mod keys(ctrl, alt, alt gr, pg up, pg down, ...) may not work if you're
+not using Xserver >= 1.5 with evdev enabled due to changes in the keys mapping.
+Hopefully, new releases of Kvkbd will detect which mapping is used and behave
+accordingly.
+- The Loginhelper mode(see manual) does not work currently with KDM, you can either
+apply the patch for KDM available here: <http://smarter.free.fr/kvkbd/kdm.html>,
+wait for your distribution or for KDE to include the patch, or use XDM.
