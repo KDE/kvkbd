@@ -217,26 +217,17 @@ KvkbdApp::KvkbdApp(bool loginhelper) : KUniqueApplication(), is_login(loginhelpe
 	widget->showMinimized();
 	
       }
-    }
-    
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(1000);
-    connect(timer, SIGNAL(timeout()), widget, SLOT(raise()));
-//     connect(timer, SIGNAL(timeout()), widget, SLOT(showNormal()));
-    timer->start();
-    
-    
-    
-    
-    if (is_login) {
-	widget->setWindowTitle("kvkbd.login");
+      widget->setWindowTitle("kvkbd");
+      tray->show();
     }
     else {
-	widget->setWindowTitle("kvkbd");
-	tray->show();
+	QTimer *timer = new QTimer(this);
+	timer->setInterval(1000);
+	connect(timer, SIGNAL(timeout()), widget, SLOT(raise()));
+	timer->start();
+	widget->setWindowTitle("kvkbd.login");
     }
-    
-    
+
 }
 
 KvkbdApp::~KvkbdApp()
