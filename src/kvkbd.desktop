@@ -1,21 +1,27 @@
 [Desktop Entry]
 Name=Kvkbd
 Name[de]=Kvkbd
+Name[fi]=Kvkbd
 Name[nl]=Kvkbd
 Name[pt]=Kvkbd
+Name[uk]=Kvkbd
 Name[x-test]=xxKvkbdxx
 Exec=kvkbd
 Icon=preferences-desktop-keyboard
 Type=Application
 Comment=A virtual keyboard for KDE
 Comment[de]=Eine virtuelle Tastatur für KDE
+Comment[fi]=KDE:n virtuaalinäppäimistö
 Comment[nl]=Een virtueel toetsenbord voor KDE
 Comment[pt]=Um teclado virtual para o KDE
+Comment[uk]=Віртуальна клавіатура для KDE
 Comment[x-test]=xxA virtual keyboard for KDExx
 GenericName=Virtual Keyboard
 GenericName[de]=Virtuelle Tastatur
+GenericName[fi]=Virtuaalinäppäimistö
 GenericName[nl]=Virtueel toetsenbord
 GenericName[pt]=Teclado Virtual
+GenericName[uk]=Віртуальна клавіатура
 GenericName[x-test]=xxVirtual Keyboardxx
 Categories=Qt;KDE;Utility;Accessibility;
 Terminal=false
