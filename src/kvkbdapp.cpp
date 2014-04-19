@@ -128,7 +128,8 @@ KvkbdApp::KvkbdApp(bool loginhelper) : KUniqueApplication(), is_login(loginhelpe
     connect(blurBackgroundAction,SIGNAL(triggered(bool)), widget, SLOT(blurBackground(bool)));
     dock->blurBackground(blur);
     connect(blurBackgroundAction,SIGNAL(triggered(bool)), dock, SLOT(blurBackground(bool)));
-
+    widget->blurBackground(blur);
+    dock->blurBackground(blur);
 
     bool dockVisible = cfg.readEntry("showdock", QVariant(false)).toBool();
     KToggleAction *showDockAction = new KToggleAction(i18nc("@action:inmenu", "Show Dock"), this);
