@@ -147,7 +147,7 @@ KvkbdApp::KvkbdApp(bool loginhelper) : KUniqueApplication(), is_login(loginhelpe
     KToggleAction *stickyModKeysAction = new KToggleAction(i18nc("@action:inmenu", "Sticky Modifier Keys"), this);
     stickyModKeysAction->setChecked(stickyModKeys);
     cmenu->addAction(stickyModKeysAction);
-    connect(lockOnScreenAction,SIGNAL(triggered(bool)), this, SLOT(setStickyModKeys(bool)));
+    connect(stickyModKeysAction,SIGNAL(triggered(bool)), this, SLOT(setStickyModKeys(bool)));
     widget->setProperty("stickyModKeys", stickyModKeys);
     
     
@@ -367,7 +367,7 @@ void KvkbdApp::partLoaded(MainWidget *vPart, int total_rows, int total_cols)
 }
 void KvkbdApp::keyProcessComplete(unsigned int)
 {
-    if (!widget->property("stickyModKeys").toBool()) return;
+    if (widget->property("stickyModKeys").toBool()) return;
     
     QListIterator<VButton *> itr(modKeys);
     while (itr.hasNext()) {
