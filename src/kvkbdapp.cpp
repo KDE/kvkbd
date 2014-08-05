@@ -143,7 +143,14 @@ KvkbdApp::KvkbdApp(bool loginhelper) : KUniqueApplication(), is_login(loginhelpe
     cmenu->addAction(lockOnScreenAction);
     connect(lockOnScreenAction,SIGNAL(triggered(bool)), widget, SLOT(setLocked(bool)));
 
-
+    bool stickyModKeys = cfg.readEntry("stickyModKeys", QVariant(false)).toBool();
+    KToggleAction *stickyModKeysAction = new KToggleAction(i18nc("@action:inmenu", "Sticky Modifier Keys"), this);
+    stickyModKeysAction->setChecked(stickyModKeys);
+    cmenu->addAction(stickyModKeysAction);
+    connect(lockOnScreenAction,SIGNAL(triggered(bool)), this, SLOT(setStickyModKeys(bool)));
+    widget->setProperty("stickyModKeys", stickyModKeys);
+    
+    
     QFont font = cfg.readEntry("font", widget->font());
     widget->setFont(font);
 
@@ -243,6 +250,7 @@ void KvkbdApp::storeConfig()
     cfg.writeEntry("visible", widget->isVisible());
     cfg.writeEntry("geometry", widget->geometry());
     cfg.writeEntry("locked", widget->isLocked());
+    cfg.writeEntry("stickyModKeys", widget->property("stickyModKeys"));
     
     cfg.writeEntry("showdock", dock->isVisible());
     cfg.writeEntry("dockGeometry", dock->geometry());
@@ -269,6 +277,11 @@ void KvkbdApp::autoResizeFont(bool mode)
     emit fontUpdated(widget->font());
 
 }
+void KvkbdApp::setStickyModKeys(bool mode)
+{
+    widget->setProperty("stickyModKeys", QVariant(mode));
+}
+
 void KvkbdApp::chooseFont()
 {
     bool restore = false;
@@ -344,12 +357,25 @@ void KvkbdApp::partLoaded(MainWidget *vPart, int total_rows, int total_cols)
 
     QObject::connect(xkbd, SIGNAL(layoutUpdated(int,QString)), vPart, SLOT(updateLayout(int,QString)));
     QObject::connect(xkbd, SIGNAL(groupStateChanged(const ModifierGroupStateMap&)), vPart, SLOT(updateGroupState(const ModifierGroupStateMap&)));
-
+    QObject::connect(xkbd, SIGNAL(keyProcessComplete(unsigned int)), this, SLOT(keyProcessComplete(unsigned int)));
+    
     QObject::connect(this, SIGNAL(textSwitch(bool)), vPart, SLOT(textSwitch(bool)));
     QObject::connect(this, SIGNAL(fontUpdated(const QFont&)), vPart, SLOT(updateFont(const QFont&)));
 
 
 
+}
+void KvkbdApp::keyProcessComplete(unsigned int)
+{
+    if (!widget->property("stickyModKeys").toBool()) return;
+    
+    QListIterator<VButton *> itr(modKeys);
+    while (itr.hasNext()) {
+        VButton *mod = itr.next();
+        if (mod->isChecked()) {
+            mod->click();
+        }
+    }
 }
 
 void KvkbdApp::buttonAction(const QString &action)

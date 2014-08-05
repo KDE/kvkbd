@@ -28,7 +28,7 @@
 static const char description[] =
     I18N_NOOP("A virtual keyboard for KDE");
 
-static const char version[] = "0.7.1";
+static const char version[] = "0.7.2";
 
 #include <X11/Xlib.h>
 
