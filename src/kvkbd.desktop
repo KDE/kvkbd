@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Kvkbd
+Name[bs]=Kvkbd
 Name[cs]=Kvkbd
 Name[de]=Kvkbd
 Name[es]=Kvkbd
@@ -16,6 +17,7 @@ Exec=kvkbd
 Icon=preferences-desktop-keyboard
 Type=Application
 Comment=A virtual keyboard for KDE
+Comment[bs]=Virtuelna tastatura za KDE
 Comment[cs]=Virtuální klávesnice pro KDE
 Comment[de]=Eine virtuelle Tastatur für KDE
 Comment[es]=Un teclado virtual para KDE
@@ -29,6 +31,7 @@ Comment[sk]=Virtuálna klávesnica pre KDE
 Comment[uk]=Віртуальна клавіатура для KDE
 Comment[x-test]=xxA virtual keyboard for KDExx
 GenericName=Virtual Keyboard
+GenericName[bs]=Virtuelna tastatura
 GenericName[cs]=Virtuální klávesnice
 GenericName[de]=Virtuelle Tastatur
 GenericName[es]=Teclado virtual
