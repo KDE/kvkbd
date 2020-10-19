@@ -19,6 +19,7 @@
 
 #include "themeloader.h"
 
+#include <QApplication>
 #include <QMessageBox>
 #include <QString>
 #include <QFile>
@@ -29,12 +30,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QMenu>
-
-#include <KUniqueApplication>
-#include <KStandardDirs>
-#include <KAction>
-#include <KToggleAction>
-
+#include <QStandardPaths>
 
 #include <iostream>
 using namespace std;
@@ -47,13 +43,12 @@ int defaultHeight = 25;
 
 ThemeLoader::ThemeLoader(QWidget *parent) : QObject(parent)
 {
-
 }
 
 ThemeLoader::~ThemeLoader()
 {
-
 }
+
 void ThemeLoader::loadTheme(QString& themeName)
 {
     bool loading = true;
@@ -64,14 +59,11 @@ void ThemeLoader::loadTheme(QString& themeName)
             break;
         }
         //bail out
-        else {
-            if (QString::compare(themeName, "standart")==0) {
-                loading = false;
-                kapp->quit();
-            }
-            else {
-                themeName="standart";
-            }
+        else if (QString::compare(themeName, "standart")==0) {
+            loading = false;
+            qApp->quit();
+        } else {
+            themeName = "standart";
         }
     }
 }
@@ -90,31 +82,25 @@ void ThemeLoader::loadColorFile(const QString& fileName)
     ((QWidget*)parent())->setStyleSheet(themeFile.readAll());
     ((QWidget*)parent())->setProperty("colors", fileName);
     themeFile.close();
-    
+
     ((QWidget*)parent())->repaint();
-    
+
     emit colorStyleChanged();
-    
-    
 }
 void ThemeLoader::loadColorStyle()
 {
-
     QAction *action = (QAction*)QObject::sender();
-   
-    QFileInfo info(action->data().toString());
-    
-    this->loadColorFile(info.absoluteFilePath());
 
+    QFileInfo info(action->data().toString());
+
+    this->loadColorFile(info.absoluteFilePath());
 }
 void ThemeLoader::findColorStyles(QMenu *colors, const QString& configSelectedStyle)
 {
-    KStandardDirs kdirs;
-    QStringList dirs = kdirs.findDirs("data", "kvkbd");
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::ApplicationsLocation, "kvkbd");
 
     QActionGroup *color_group = new QActionGroup(colors);
     color_group->setExclusive(true);
-
 
     QAction *item = new QAction(colors);
     item->setCheckable(true);
@@ -122,13 +108,9 @@ void ThemeLoader::findColorStyles(QMenu *colors, const QString& configSelectedSt
     item->setData(":/theme/standart.css");
     colors->addAction(item);
     color_group->addAction(item);
-    
-    
-
-
 
     colors->setTitle("Color Style");
-    colors->setIcon(KIcon("preferences-desktop-color"));
+    colors->setIcon(QIcon("preferences-desktop-color"));
     QListIterator<QString> itr(dirs);
     while (itr.hasNext()) {
         QString data_path = itr.next() + "colors";
@@ -155,47 +137,37 @@ void ThemeLoader::findColorStyles(QMenu *colors, const QString& configSelectedSt
 
 
             }
-
         }
-
     }
 
     QString selectedStyle = configSelectedStyle;
-    if (selectedStyle.length()<1) {
-	selectedStyle = DEFAULT_CSS;
+    if (selectedStyle.length() < 1) {
+        selectedStyle = DEFAULT_CSS;
     }
     QAction *selectedAction = 0;
-    
+
     QListIterator<QAction*> itrActions(color_group->actions());
     while (itrActions.hasNext()) {
         QAction *item = itrActions.next();
-	
-	if (item->data().toString() == selectedStyle) {
-	    item->setChecked(true);
-	    selectedAction = item;
-	}
-      
-	
+
+        if (item->data().toString() == selectedStyle) {
+            item->setChecked(true);
+            selectedAction = item;
+        }
         connect(item, SIGNAL(triggered(bool)), this, SLOT(loadColorStyle()));
     }
-    
-    if (selectedAction) {
-      selectedAction->trigger();
-    }
 
+    if (selectedAction) {
+        selectedAction->trigger();
+    }
 }
 
 
 int ThemeLoader::loadLayout(const QString& themeName, const QString& path)
 {
-
 //     const KArchiveDirectory * KArchive::directory	(		)	 const
 
-
     QFile themeFile;
-
-
-
     QDomDocument doc;
 
     themeFile.setFileName(QString(path + "%1.xml").arg(themeName));
@@ -239,7 +211,6 @@ int ThemeLoader::loadLayout(const QString& themeName, const QString& path)
         //cout  << "heights[" << qPrintable(hintName) << "]=>"<< height << endl;
     }
 
-
     wList = docElem.elementsByTagName("spacingHints");
     wNode = wList.at(0);
     nList = (wNode.toElement()).elementsByTagName("item");
@@ -251,7 +222,6 @@ int ThemeLoader::loadLayout(const QString& themeName, const QString& path)
         //cout  << "spacing[" << qPrintable(hintName) << "]=>"<< width << endl;
     }
 
-
     wList = docElem.elementsByTagName("part");
     wNode = wList.at(0);
 
@@ -260,7 +230,6 @@ int ThemeLoader::loadLayout(const QString& themeName, const QString& path)
 
     MainWidget *part = new MainWidget((QWidget*)parent());
     part->setProperty("part", "main");
-
 
     loadKeys(part, wNode);
 
@@ -276,9 +245,6 @@ int ThemeLoader::loadLayout(const QString& themeName, const QString& path)
             break;
         }
     }
-
-
-
     return 0;
 }
 bool ThemeLoader::applyProperty(VButton *btn, const QString& attributeName, QDomNamedNodeMap *attributes, QVariant defaultValue)
@@ -397,7 +363,7 @@ void ThemeLoader::loadKeys(MainWidget *vPart, const QDomNode& wNode)
 
                 }
 
-                
+
                 int is_checkable = attributes.namedItem("checkable").toAttr().value().toInt();
                 if (is_checkable>0) {
                     btn->setCheckable(true);
@@ -454,8 +420,6 @@ void ThemeLoader::loadKeys(MainWidget *vPart, const QDomNode& wNode)
     vPart->setBaseSize(max_sx, max_sy);
 
     emit partLoaded(vPart, total_rows, total_cols);
-    
-
 
 }
 

@@ -20,8 +20,8 @@
 #ifndef KVKBDAPP_H
 #define KVKBDAPP_H
 
-#include <KUniqueApplication>
 #include <QAction>
+#include <QApplication>
 #include <QSignalMapper>
 #include <QGridLayout>
 #include <QDomNode>
@@ -35,19 +35,19 @@
 #include "kbddock.h"
 #include "vkeyboard.h"
 
-class KvkbdApp : public KUniqueApplication
+class KvkbdApp : public QApplication
 {
     Q_OBJECT
 
 public:
-    KvkbdApp(bool loginhelper=false);
+    using QApplication::QApplication;
     ~KvkbdApp();
 
-    
+    void initGui(bool loginhelper = false);
 
 public slots:
     void keyProcessComplete(unsigned int);
-    
+
     void buttonAction(const QString& action);
     void storeConfig();
     void toggleExtension();
@@ -55,40 +55,35 @@ public slots:
     void chooseFont();
     void autoResizeFont(bool mode);
     void setStickyModKeys(bool mode);
-   
-    
+
     void partLoaded(MainWidget *vPart, int total_rows, int total_cols);
     void buttonLoaded(VButton *btn);
 
-    
-    
 protected:
 
-    ResizableDragWidget *widget;
+    ResizableDragWidget *widget = nullptr;
 
-    KbdTray *tray;
+    KbdTray *tray = nullptr;
 
 
     QMap<QString, QString> colorMap;
     QMap<QString, MainWidget*> parts;
     QMap<QString, QRect> layoutPosition;
 
-    QSignalMapper *signalMapper;
+    QSignalMapper *signalMapper = nullptr;
 
-    
-    QGridLayout *layout;
+    QGridLayout *layout = nullptr;
 
-    
     QMap<QString, VButton*> actionButtons;
-    
-    ThemeLoader *themeLoader;
-    
-    KbdDock *dock;
-    
-    VKeyboard *xkbd;
-    
-    bool is_login;
-    
+
+    ThemeLoader *themeLoader = nullptr;
+
+    KbdDock *dock = nullptr;
+
+    VKeyboard *xkbd = nullptr;
+
+    bool is_login = false;
+
 signals:
     void textSwitch(bool);
     void fontUpdated(const QFont& font);

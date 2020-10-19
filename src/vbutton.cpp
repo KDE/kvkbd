@@ -47,7 +47,6 @@ void VButton::setKeyCode(unsigned int keyCode)
 unsigned int VButton::getKeyCode()
 {
     return this->keyCode;
-
 }
 
 void VButton::setButtonText(const ButtonText& text)
@@ -68,7 +67,6 @@ void VButton::setTextIndex(int index)
 int VButton::textIndex()
 {
     return this->mTextIndex;
-
 }
 
 void VButton::nextText()
@@ -79,10 +77,7 @@ void VButton::nextText()
     int textCount = mButtonText.count()-1;
     if (mTextIndex>textCount) mTextIndex=0;
 
-
     updateText();
-
-
 }
 
 void VButton::setCaps(bool mode)
@@ -90,9 +85,6 @@ void VButton::setCaps(bool mode)
     if (mButtonText.count()<1)return;
 
     isCaps = mode;
-
-
-
 }
 void VButton::setShift(bool mode)
 {
@@ -102,7 +94,6 @@ void VButton::setShift(bool mode)
     }
     else {
         this->mTextIndex = 0;
-
     }
     isShift = mode;
 }
@@ -124,9 +115,7 @@ void VButton::updateText()
     else {
         text = text.toLower();
     }
-
     this->setText(text);
-
 }
 
 void VButton::sendKey()
@@ -146,22 +135,19 @@ void VButton::mousePressEvent(QMouseEvent *e)
     QPushButton::mousePressEvent(e);
 
     if (this->keyCode>0) {
-	sendKey();
+        sendKey();
 
-	if (!isCheckable()) {
-	    if (!keyTimer->isActive()) {
-		//200 ms is a bit more that the time needed for a single click
-		keyTimer->start(VButton::RepeatLongDelay);
-
-	    }
-
-	}
+        if (!isCheckable()) {
+            if (!keyTimer->isActive()) {
+                //200 ms is a bit more that the time needed for a single click
+                keyTimer->start(VButton::RepeatLongDelay);
+            }
+        }
     }
 }
 
 void VButton::mouseReleaseEvent(QMouseEvent *e)
 {
-
     if (keyTimer->isActive())keyTimer->stop();
     QPushButton::mouseReleaseEvent(e);
 }

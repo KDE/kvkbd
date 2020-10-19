@@ -19,15 +19,14 @@
 #ifndef KBDTRAY_H
 #define KBDTRAY_H
 
-#include <KSystemTrayIcon>
 #include <QMenu>
 #include <QSystemTrayIcon>
 #include <QFont>
 
-class KbdTray : public KSystemTrayIcon
+class KbdTray : public QSystemTrayIcon
 {
     Q_OBJECT
-    
+
 public:
     explicit KbdTray(QWidget* parent = 0);
     ~KbdTray();
@@ -35,11 +34,9 @@ public:
 
 public slots:
     void activationHandler(QSystemTrayIcon::ActivationReason reason);
-    
-    
+
 signals:
     void requestVisibility();
-    
 };
 
 

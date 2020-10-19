@@ -6,13 +6,10 @@
 class ResizableDragWidget : public DragWidget
 {
     Q_OBJECT
-    
+
 public:
     explicit ResizableDragWidget(QWidget *parent = 0);
     ~ResizableDragWidget();
-
-
-
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent * e);

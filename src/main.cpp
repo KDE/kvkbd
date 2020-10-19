@@ -23,12 +23,15 @@
 
 #include "kvkbdapp.h"
 #include <KAboutData>
-#include <KCmdLineArgs>
+#include <KLocalizedString>
+
+#include <QCommandLineOption>
+#include <QCommandLineParser>
 
 static const char description[] =
     I18N_NOOP("A virtual keyboard for KDE");
 
-static const char version[] = "0.7.2";
+static QString version = QStringLiteral("0.7.2");
 
 #include <X11/Xlib.h>
 
@@ -47,54 +50,53 @@ void findLoginWindow()
 
 	scrn = DefaultScreen(dipsy);
 	root = RootWindow(dipsy, scrn);
-	
+
 	mapped = 0;
 	XQueryTree(dipsy, root, &r, &p, &kids, &numkids);
-		
+
 
 	for (i = 0; i < numkids;  ++i)
 	{
-			XFetchName(dipsy, kids[i], &win_name);
-			QString c(win_name);
-			
-			if (c=="kvkbd.login")
- 			{
- 				long wid = kids[i];
-				XDestroyWindow(dipsy,wid);
-				XFlush(dipsy);
-				i=numkids;
- 			}
-			XFree(win_name);
-	} 
+        XFetchName(dipsy, kids[i], &win_name);
+        QString c(win_name);
+
+        if (c == "kvkbd.login") {
+            long wid = kids[i];
+            XDestroyWindow(dipsy,wid);
+            XFlush(dipsy);
+            i=numkids;
+        }
+        XFree(win_name);
+	}
 	XCloseDisplay(dipsy);
 }
 
 int main(int argc, char **argv)
 {
+    KvkbdApp app(argc, argv);
 
-    KAboutData about("kvkbd", 0, ki18n("Kvkbd"), version, ki18n(description),
-                     KAboutData::License_LGPL_V3, ki18n("(C) 2007-2014 The Kvkbd Developers"));
-    about.addAuthor(ki18n("Todor Gyumyushev"), ki18n("Original Author"), "yodor1@gmail.com");
-    about.addAuthor(ki18n("Guillaume Martres"), ki18n("KDE4 port"), "smarter@ubuntu.com");
+    KAboutData about(QStringLiteral("kvkbd"), i18n("Kvkbd"), version, i18n(description),
+                     KAboutLicense::LGPL_V3, i18n("(C) 2007-2014 The Kvkbd Developers"));
+    about.addAuthor(i18n("Todor Gyumyushev"), i18n("Original Author"), "yodor1@gmail.com");
+    about.addAuthor(i18n("Guillaume Martres"), i18n("KDE4 port"), "smarter@ubuntu.com");
     about.setProgramIconName("preferences-desktop-keyboard");
 
-    KCmdLineArgs::init(argc, argv, &about);
-    KCmdLineOptions options;
+    KAboutData::setApplicationData(about);
 
-    options.add("loginhelper", ki18n("Stand alone version for use with KDM or XDM.\n"
+    QCommandLineParser parser;
+    QCommandLineOption loginhelper("loginhelper", i18n("Stand alone version for use with KDM or XDM.\n"
                                      "See Kvkbd Handbook for information on how to use this option."));
-    KCmdLineArgs::addCmdLineOptions(options);
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addOption(loginhelper);
+    parser.process(app);
 
-    bool is_login = KCmdLineArgs::parsedArgs()->isSet("loginhelper");
+    bool is_login = parser.isSet(loginhelper);
     if (!is_login) {
-      findLoginWindow();
+        findLoginWindow();
     }
-	
-    KvkbdApp app(is_login);
+
+    app.initGui(is_login);
 
     return app.exec();
-    
 }
-
-
-

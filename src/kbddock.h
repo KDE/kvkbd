@@ -32,7 +32,6 @@ class KbdDock : public DragWidget
 {
     Q_OBJECT
 
-
 public:
     KbdDock(const WId& window);
     ~KbdDock();
@@ -47,7 +46,7 @@ signals:
 protected:
     void mouseReleaseEvent(QMouseEvent *ev);
     WId wID;
-    
+
     QPixmap pm;
 
 };

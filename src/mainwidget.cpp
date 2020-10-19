@@ -8,7 +8,6 @@
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
-
 }
 
 void MainWidget::setBaseSize(int w, int h)
@@ -58,9 +57,7 @@ void MainWidget::updateGroupState(const ModifierGroupStateMap& stateMap)
             if (QString::compare(btn_group_name, group_name)==0) {
                 btn->setChecked(state);
             }
-
         }
-
     }
 
 }
@@ -70,9 +67,7 @@ void MainWidget::textSwitch(bool setShift)
     QObjectList buttons = this->children();
 
     for (int a=0; a<buttons.count(); a++) {
-
         VButton *btn = (VButton*)buttons.at(a);
-
         btn->setShift(setShift);
         btn->updateText();
     }
@@ -90,24 +85,20 @@ void MainWidget::updateLayout(int index, QString layout_name)
 
         if (btn->property("label").toString().length()<1) {
             ButtonText text;
-
             vkbd->textForKeyCode(btn->getKeyCode(), text);
             btn->setButtonText(text);
             btn->updateText();
-
         }
 
         if (btn->objectName()=="currentLayout") {
             btn->setText(layout_name);
         }
     }
-
 }
 
 
 void MainWidget::resizeEvent(QResizeEvent *ev)
 {
-
     const QSize& size = ev->size();
 
     double dw = (double)size.width() / (double)bsize.width();
@@ -120,16 +111,13 @@ void MainWidget::resizeEvent(QResizeEvent *ev)
         const QRect& geom = btn->VRect();
 
         btn->setGeometry((geom.x() * dw), (geom.y() * dh), (geom.width() * dw), (geom.height() * dh));
-
     }
 
     updateFont(this->parentWidget()->font());
-
 }
 
 void MainWidget::updateFont(const QFont& widgetFont)
 {
-
     int fontSize = widgetFont.pointSize();
     if ( parentWidget()->property("autoresfont").toBool() ) {
         fontSize = (8.0 / 500.0) * this->parentWidget()->size().width();

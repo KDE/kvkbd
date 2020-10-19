@@ -63,8 +63,6 @@ protected slots:
     void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
     void repeatKey();
-
-
 };
 
 #endif // VBUTTON_H

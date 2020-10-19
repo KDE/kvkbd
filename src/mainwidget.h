@@ -29,7 +29,6 @@ public slots:
 protected:
     virtual void resizeEvent(QResizeEvent *ev);
     QSize bsize;
-    
 };
 
 #endif // MAINWIDGET_H

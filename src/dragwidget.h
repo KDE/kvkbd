@@ -18,7 +18,7 @@ public slots:
     void blurBackground(bool blurEnabled);
     void setLocked(bool mode);
     bool isLocked();
-    
+
 protected:
     virtual void mouseMoveEvent(QMouseEvent * e);
     virtual void mousePressEvent(QMouseEvent * e);
@@ -29,11 +29,11 @@ protected:
 
     QPoint dragPoint;
     QPoint gpress;
-    
+
     bool dragged;
     bool moved;
     bool locked;
-    
+
 signals:
     void widgetShown();
 };

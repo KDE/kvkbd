@@ -40,14 +40,13 @@ public:
     ~ThemeLoader();
 
     void loadTheme(QString& themeName);
-    
-    
+
     void loadColorFile(const QString& fileName);
-    
+
     int loadLayout(const QString& themeName, const QString& path);
 
     void findColorStyles(QMenu *parent, const QString& selectedStyle);
-    
+
 protected:
     void loadKeys(MainWidget *vPart, const QDomNode& wNode);
     bool applyProperty(VButton *btn, const QString& attributeName, QDomNamedNodeMap *attributes, QVariant defaultValue="");
@@ -55,10 +54,10 @@ protected:
     QMap<QString, int> widthMap;
     QMap<QString, int> heightMap;
     QMap<QString, int> spacingMap;
-    
+
 public slots:
     void loadColorStyle();
-    
+
 signals:
 
     void partLoaded(MainWidget *vPart, int total_rows, int total_cols);

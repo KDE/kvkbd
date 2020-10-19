@@ -46,9 +46,6 @@ using namespace std;
 
 X11Keyboard::X11Keyboard(QObject *parent): VKeyboard(parent)
 {
-
-
-
     QString service = "";
     QString path = "/Layouts";
     QString interface = "org.kde.KeyboardLayouts";
@@ -62,19 +59,14 @@ X11Keyboard::X11Keyboard(QObject *parent): VKeyboard(parent)
     groupTimer = new QTimer(parent);
     groupTimer->setInterval(250);
 
-
     groupState.insert("capslock", this->queryModKeyState(XK_Caps_Lock));
     groupState.insert("numlock", this->queryModKeyState(XK_Num_Lock));
 
     connect(groupTimer, SIGNAL(timeout()), this, SLOT(queryModState()));
-
-
-
 }
 
 X11Keyboard::~X11Keyboard()
 {
-
 }
 
 void X11Keyboard::start()
@@ -100,9 +92,7 @@ void X11Keyboard::constructLayouts()
             QString layout_name = itr.next();
             layouts << layout_name;
         }
-
     }
-
 }
 
 void X11Keyboard::processKeyPress(unsigned int keyCode)
@@ -139,10 +129,7 @@ void X11Keyboard::sendKey(unsigned int keycode)
             XTestFakeKeyEvent(display, mod->getKeyCode(), false, 2);
         }
     }
-
-
     XFlush(display);
-
 }
 
 bool X11Keyboard::queryModKeyState(KeySym iKey)
@@ -183,13 +170,10 @@ void X11Keyboard::queryModState()
 
         emit groupStateChanged(groupState);
     }
-
 }
-
 
 void X11Keyboard::layoutChanged()
 {
-
     //std::cerr << "LayoutChanged" << std::endl;
 
     QDBusInterface iface("org.kde.keyboard", "/Layouts", "org.kde.KeyboardLayouts", QDBusConnection::sessionBus());
@@ -201,15 +185,12 @@ void X11Keyboard::layoutChanged()
         QString current_layout = reply.value();
 
         layout_index = layouts.indexOf(current_layout);
-	
-	emit layoutUpdated(layout_index, layouts.at(layout_index));
-    }
-    else {
-	layout_index = 0;
-	
-	emit layoutUpdated(0, "us");
-    }
 
+        emit layoutUpdated(layout_index, layouts.at(layout_index));
+    } else {
+        layout_index = 0;
+        emit layoutUpdated(0, "us");
+    }
 }
 void X11Keyboard::textForKeyCode(unsigned int keyCode,  ButtonText& text)
 {
@@ -244,7 +225,4 @@ void X11Keyboard::textForKeyCode(unsigned int keyCode,  ButtonText& text)
     text.append(shiftText);
 
     XFree ((char *) keysym);
-
 }
-
-

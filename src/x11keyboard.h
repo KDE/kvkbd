@@ -21,7 +21,7 @@
 #define X11KEYBOARD_H
 
 #include "keysymconvert.h"
-#include <fixx11h.h>
+#include <KF5/KWindowSystem/fixx11h.h>
 
 #include "vkeyboard.h"
 
@@ -30,8 +30,6 @@
 #include <QStringList>
 #include <QChar>
 #include <QMap>
-
-
 
 class X11Keyboard : public VKeyboard
 {
@@ -50,7 +48,6 @@ public slots:
     virtual void start();
 
 protected:
-
     void sendKey(unsigned int keycode);
 
     QStringList layouts;
@@ -58,11 +55,9 @@ protected:
 
     KeySymConvert kconvert;
 
-
     bool queryModKeyState(KeySym keyCode);
     ModifierGroupStateMap groupState;
     QTimer *groupTimer;
-
 };
 
 #endif // X11KEYBOARD_H

@@ -32,8 +32,6 @@ using namespace std;
 ResizableDragWidget::ResizableDragWidget(QWidget *parent) :
     DragWidget(parent), doResize(false)
 {
-
-
 }
 
 ResizableDragWidget::~ResizableDragWidget()
@@ -43,35 +41,30 @@ ResizableDragWidget::~ResizableDragWidget()
 void ResizableDragWidget::mousePressEvent(QMouseEvent * ev)
 {
 //     cout << "ResizableDragWidget::mousePressEvent" << endl;
-    
+
     DragWidget::mousePressEvent(ev);
 
     if (dragPoint.x() > width() - 20 && dragPoint.x() < width() && dragPoint.y() > height() - 20 && dragPoint.y() < height()) {
-        
         dragPoint = QPoint(width() - ev->pos().x(), height() - ev->pos().y());
-	
-	dragged = false;
-	doResize = true;
+        dragged = false;
+        doResize = true;
     }
-
 }
 
 void ResizableDragWidget::mouseMoveEvent(QMouseEvent * ev)
 {
 //     cout << "ResizableDragWidget::mouseMoveEvent | Resize: " << doResize << " | Dragged: " << dragged << endl;
-    
-    
+
     DragWidget::mouseMoveEvent(ev);
-    
+
     if (!doResize) return;
-    
+
     QPoint curr(ev->globalPos().x(), ev->globalPos().y());
     QPoint pos = QWidget::pos();
     int nw = curr.x() - pos.x() + dragPoint.x();
     int nh = curr.y() - pos.y() + dragPoint.y();
 
     resize(nw, nh);
-
 }
 
 void ResizableDragWidget::mouseReleaseEvent(QMouseEvent * e)
@@ -79,12 +72,10 @@ void ResizableDragWidget::mouseReleaseEvent(QMouseEvent * e)
     DragWidget::mouseReleaseEvent(e);
 
     doResize = false;
-
 }
 
 void ResizableDragWidget::paintEvent(QPaintEvent *ev)
 {
-
     DragWidget::paintEvent(ev);
 
     QPainter p(this);
@@ -96,9 +87,6 @@ void ResizableDragWidget::paintEvent(QPaintEvent *ev)
         p.setPen(QColor(200, 200, 200));
         p.drawLine(width() - 19 + a, height() - 2, width() - 2, height() - 19 + a);
     }
-
 }
-
-
 
 #include "resizabledragwidget.moc"

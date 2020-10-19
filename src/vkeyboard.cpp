@@ -21,7 +21,6 @@
 
 VKeyboard::VKeyboard(QObject *parent) : QObject(parent)
 {
-    
 }
 
 VKeyboard::~VKeyboard()
