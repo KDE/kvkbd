@@ -35,6 +35,5 @@ find_package(LibXslt REQUIRED)
 
 add_subdirectory( doc )
 add_subdirectory( src )
-add_subdirectory( pics )
 add_subdirectory( colors )
 add_subdirectory( themes )

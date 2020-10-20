@@ -27,7 +27,7 @@
 KbdTray::KbdTray(QWidget* parent) : QSystemTrayIcon(parent)
 {
     setObjectName("KvkbdTray");
-    setIcon(KIconLoader::global()->loadIcon("tray.png", KIconLoader::User));
+    setIcon(KIconLoader::global()->loadIcon("input-keyboard", KIconLoader::Small));
 
     setContextMenu(new QMenu);
     contextMenu()->setTitle("Kvkbd");
